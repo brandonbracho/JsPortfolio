@@ -1,18 +1,37 @@
+$(window).on("load", function() {
+    $(".loader .inner").fadeOut(700, function() {
+      $(".loader").fadeOut(850);
+    });
+
+    $(".items").isotope({
+      filter:'*',
+      animationOptions: {
+        duration: 1500,
+        easing: 'linear',
+        queue: false
+      }
+    });
+
+
+})
+
+
+
 
 $(document).ready(function() {
 
-  $('#slides').superslides({
-    animation: 'fade',
+  $("#slides").superslides({
+    animation: "fade",
     play: 4000,
-    pagination: false,
+    pagination: false
   });
 
   var typed = new Typed(".typed", {
-    strings: ["Python Enthusiast.","Student.","Junior Analyst."],
+    strings: ["Data Enthusiast.","Student."],
     typeSpeed: 65,
     loop: true,
     startDelay: 1200,
-    showCursor: false,
+    showCursor: false
   });
 
   $('.owl-carousel').owlCarousel({
@@ -58,12 +77,64 @@ $(document).ready(function() {
 
    $("[data-fancybox]").fancybox();
 
-   $(".items").isotope({
-     filter:'*'
-     animationOptions: {
-       durations: 1500,
-       easing: 'linear',
-       queue: false
+
+
+   $("#filters a").click(function() {
+
+     $("#filters .current").removeClass("current");
+     $(this).addClass("current");
+
+     var selector = $(this).attr("data-filter");
+
+     $(".items").isotope({
+       filter:selector,
+       animationOptions: {
+         duration: 1500,
+         easing: 'linear',
+         queue: false
+       }
+     });
+
+     return false;
+     });
+
+     $("#navigation li a").click(function(e)  {
+       e.preventDefault();
+
+       var targetElement = $(this).attr("href");
+       var targetPosition = $(targetElement).offset().top;
+       $("html, body").animate({ scrollTop: targetPosition - 50 },"slow");
+
+
+     });
+
+
+
+
+
+     const nav = $("#navigation");
+     const navTop = nav.offset().top;
+
+     $(window).on("scroll", stickyNavigation);
+
+     function stickyNavigation() {
+
+       var body = $("body");
+
+       if($(window).scrollTop() >=navTop){
+         body.css("padding-top", nav.outerHeight() + "px");
+         body.addClass("fixedNav");
+       }
+       else{
+         body.css("padding-top", 0);
+         body.removeClass("fixedNav");
+       }
+
+
      }
-   });
+
+
+
+
+
 });
